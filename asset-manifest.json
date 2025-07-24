@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dynamic-ui/static/css/main.62892325.css",
+    "main.js": "/dynamic-ui/static/js/main.ad248195.js",
+    "index.html": "/dynamic-ui/index.html",
+    "main.62892325.css.map": "/dynamic-ui/static/css/main.62892325.css.map",
+    "main.ad248195.js.map": "/dynamic-ui/static/js/main.ad248195.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.62892325.css",
+    "static/js/main.ad248195.js"
+  ]
+}

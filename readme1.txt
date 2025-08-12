@@ -514,3 +514,68 @@ This list provides a comprehensive overview of the major Pega features. If you n
 
 PDC
 
+
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.securitytoken.AWSSecurityTokenService;
+import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder;
+import com.amazonaws.services.securitytoken.model.GetSessionTokenRequest;
+import com.amazonaws.services.securitytoken.model.GetSessionTokenResult;
+import com.amazonaws.services.securitytoken.model.Credentials;
+
+import com.pega.api.context.PrContext;
+import com.pega.api.activity.Activity;
+import com.pega.api.activity.ActivityException;
+import com.pega.api.activity.StepStatus;
+import com.pega.api.context.PrThread;
+
+public class GetAWSSecurityTokenActivity extends Activity {
+
+    @Override
+    public StepStatus execute(PrContext prContext) throws ActivityException {
+        try {
+            // Replace with your AWS credentials
+            String accessKey = "<AWS_ACCESS_KEY>";
+            String secretKey = "<AWS_SECRET_KEY>";
+            String region = "us-west-2"; // Replace with your region
+
+            // Create AWS credentials
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
+
+            // Initialize AWS STS client
+            AWSSecurityTokenService stsClient = AWSSecurityTokenServiceClientBuilder.standard()
+                    .withRegion(region)
+                    .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
+                    .build();
+
+            // Request temporary credentials
+            GetSessionTokenRequest getSessionTokenRequest = new GetSessionTokenRequest()
+                    .withDurationSeconds(3600);  // 1 hour session token
+
+            GetSessionTokenResult sessionTokenResult = stsClient.getSessionToken(getSessionTokenRequest);
+
+            // Retrieve temporary credentials
+            Credentials credentials = sessionTokenResult.getCredentials();
+            String temporaryAccessKey = credentials.getAccessKeyId();
+            String temporarySecretKey = credentials.getSecretAccessKey();
+            String sessionToken = credentials.getSessionToken();
+
+            // Log the credentials (for debugging purposes - avoid in production)
+            System.out.println("Temporary AWS Access Key: " + temporaryAccessKey);
+            System.out.println("Temporary AWS Secret Key: " + temporarySecretKey);
+            System.out.println("Temporary Session Token: " + sessionToken);
+
+            // Optionally, you can store these values in the Pega Clipboard or handle them accordingly
+            prContext.getThread().getClipboardPage().putString("AWS_TemporaryAccessKey", temporaryAccessKey);
+            prContext.getThread().getClipboardPage().putString("AWS_TemporarySecretKey", temporarySecretKey);
+            prContext.getThread().getClipboardPage().putString("AWS_SessionToken", sessionToken);
+
+            // Return step status as success
+            return StepStatus.SUCCESS;
+
+        } catch (Exception e) {
+            throw new ActivityException("Failed to retrieve AWS STS details: " + e.getMessage(), e);
+        }
+    }
+}
+

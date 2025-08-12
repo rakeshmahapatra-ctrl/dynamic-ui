@@ -709,3 +709,17 @@ try {
 } catch (Exception e) {
     oLog.error("Error while calling AWS STS: " + e.getMessage(), e);
 }
+
+
+
+com.amazonaws.services.securitytoken.AWSSecurityTokenService stsClient = 
+    com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder.standard()
+    .withRegion("us-east-1")
+    .build();
+
+com.amazonaws.services.securitytoken.model.GetCallerIdentityResult identityResult =
+    stsClient.getCallerIdentity(new com.amazonaws.services.securitytoken.model.GetCallerIdentityRequest());
+
+param.Arn = identityResult.getArn();
+param.Account = identityResult.getAccount();
+param.UserId = identityResult.getUserId();

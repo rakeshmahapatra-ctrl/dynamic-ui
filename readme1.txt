@@ -723,3 +723,43 @@ com.amazonaws.services.securitytoken.model.GetCallerIdentityResult identityResul
 param.Arn = identityResult.getArn();
 param.Account = identityResult.getAccount();
 param.UserId = identityResult.getUserId();
+
+
+
+try {
+    oLog.info("Fetching current AWS credentials from DefaultAWSCredentialsProviderChain...");
+
+    com.amazonaws.auth.AWSCredentialsProvider provider = 
+        com.amazonaws.auth.DefaultAWSCredentialsProviderChain.getInstance();
+
+    com.amazonaws.auth.AWSCredentials creds = provider.getCredentials();
+
+    String accessKey = creds.getAWSAccessKeyId();
+    String secretKey = creds.getAWSSecretKey();
+    String sessionToken = "";
+
+    if (creds instanceof com.amazonaws.auth.AWSSessionCredentials) {
+        sessionToken = ((com.amazonaws.auth.AWSSessionCredentials) creds).getSessionToken();
+    }
+
+    oLog.info("Credentials fetched successfully.");
+
+    // Set to param
+    tools.getParamValue("AccessKeyId").setValue(accessKey);
+    tools.getParamValue("SecretAccessKey").setValue(secretKey);
+    tools.getParamValue("SessionToken").setValue(sessionToken);
+
+    // Optional: put into a clipboard page
+    ClipboardPage stsPage = tools.createPage("Data-Portal", "STSDetails");
+    stsPage.putString("AccessKeyId", accessKey);
+    stsPage.putString("SecretAccessKey", secretKey);
+    stsPage.putString("SessionToken", sessionToken);
+    tools.getClipboard().add(stsPage);
+
+    oLog.debug("AccessKeyId: " + accessKey);
+    oLog.debug("SessionToken: " + sessionToken);
+
+} catch (Exception e) {
+    oLog.error("Error extracting AWS credentials: " + e.getMessage(), e);
+    tools.getParamValue("STSCallStatus").setValue("FAILED");
+}

@@ -619,3 +619,93 @@ stsPage.putString("Expiration", stsCredentials.getExpiration().toString());
 tools.getClipboard().add(stsPage);
 
 
+
+
+
+// Create default STS client (uses IAM role from EC2 instance or EKS pod)
+com.amazonaws.services.securitytoken.AWSSecurityTokenService stsClient = 
+    com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder.standard()
+    .withRegion("us-east-1") // replace with your region
+    .build();
+
+// Get session token (optional, depending on what you need)
+com.amazonaws.services.securitytoken.model.GetSessionTokenRequest sessionTokenRequest = 
+    new com.amazonaws.services.securitytoken.model.GetSessionTokenRequest().withDurationSeconds(3600);
+
+com.amazonaws.services.securitytoken.model.GetSessionTokenResult sessionTokenResult = 
+    stsClient.getSessionToken(sessionTokenRequest);
+
+// Extract temporary credentials
+com.amazonaws.services.securitytoken.model.Credentials stsCredentials = sessionTokenResult.getCredentials();
+
+// Create a temporary clipboard page
+ClipboardPage stsPage = tools.createPage("Data-Portal", "STSDetails");
+stsPage.putString("AccessKeyId", stsCredentials.getAccessKeyId());
+stsPage.putString("SecretAccessKey", stsCredentials.getSecretAccessKey());
+stsPage.putString("SessionToken", stsCredentials.getSessionToken());
+stsPage.putString("Expiration", stsCredentials.getExpiration().toString());
+
+// Add page to clipboard
+tools.getClipboard().add(stsPage);
+
+
+com.amazonaws.services.securitytoken.model.GetCallerIdentityResult identityResult = 
+    com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder.standard()
+    .withRegion("us-east-1")
+    .build()
+    .getCallerIdentity(new com.amazonaws.services.securitytoken.model.GetCallerIdentityRequest());
+
+ClipboardPage stsPage = tools.createPage("Data-Portal", "STSDetails");
+stsPage.putString("Account", identityResult.getAccount());
+stsPage.putString("Arn", identityResult.getArn());
+stsPage.putString("UserId", identityResult.getUserId());
+tools.getClipboard().add(stsPage);
+
+
+
+
+try {
+    oLog.info("Starting STS GetSessionToken call...");
+
+    // Create default STS client (uses IAM role from EC2/EKS)
+    com.amazonaws.services.securitytoken.AWSSecurityTokenService stsClient = 
+        com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder.standard()
+        .withRegion("us-east-1") // Replace with your region
+        .build();
+
+    oLog.info("STS client created successfully.");
+
+    // Get session token
+    com.amazonaws.services.securitytoken.model.GetSessionTokenRequest sessionTokenRequest = 
+        new com.amazonaws.services.securitytoken.model.GetSessionTokenRequest().withDurationSeconds(3600);
+
+    oLog.info("Sending GetSessionToken request to STS...");
+
+    com.amazonaws.services.securitytoken.model.GetSessionTokenResult sessionTokenResult = 
+        stsClient.getSessionToken(sessionTokenRequest);
+
+    oLog.info("Received session token response from STS.");
+
+    // Extract credentials
+    com.amazonaws.services.securitytoken.model.Credentials stsCredentials = sessionTokenResult.getCredentials();
+
+    oLog.debug("AccessKeyId: " + stsCredentials.getAccessKeyId());
+    oLog.debug("SecretAccessKey: [HIDDEN]");
+    oLog.debug("SessionToken: [HIDDEN]");
+    oLog.debug("Expiration: " + stsCredentials.getExpiration());
+
+    // Create a temporary clipboard page
+    ClipboardPage stsPage = tools.createPage("Data-Portal", "STSDetails");
+    stsPage.putString("AccessKeyId", stsCredentials.getAccessKeyId());
+    stsPage.putString("SecretAccessKey", stsCredentials.getSecretAccessKey());
+    stsPage.putString("SessionToken", stsCredentials.getSessionToken());
+    stsPage.putString("Expiration", stsCredentials.getExpiration().toString());
+
+    // Add page to clipboard
+    tools.getClipboard().add(stsPage);
+
+    oLog.info("STS credentials added to clipboard page: STSDetails");
+
+} catch (Exception e) {
+    oLog.error("Error while calling AWS STS: " + e.getMessage(), e);
+}

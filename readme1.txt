@@ -579,3 +579,43 @@ public class GetAWSSecurityTokenActivity extends Activity {
     }
 }
 
+
+
+
+
+
+// Set AWS credentials (use secure source in real implementation)
+String accessKey = "YOUR_AWS_ACCESS_KEY";
+String secretKey = "YOUR_AWS_SECRET_KEY";
+
+// Create AWS credentials
+com.amazonaws.auth.BasicAWSCredentials awsCreds = new com.amazonaws.auth.BasicAWSCredentials(accessKey, secretKey);
+
+// Create STS client
+com.amazonaws.services.securitytoken.AWSSecurityTokenService stsClient = 
+    com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder.standard()
+    .withCredentials(new com.amazonaws.auth.AWSStaticCredentialsProvider(awsCreds))
+    .withRegion("us-east-1") // Replace with your AWS region
+    .build();
+
+// Get session token
+com.amazonaws.services.securitytoken.model.GetSessionTokenRequest sessionTokenRequest = 
+    new com.amazonaws.services.securitytoken.model.GetSessionTokenRequest().withDurationSeconds(3600);
+
+com.amazonaws.services.securitytoken.model.GetSessionTokenResult sessionTokenResult = 
+    stsClient.getSessionToken(sessionTokenRequest);
+
+// Extract credentials
+com.amazonaws.services.securitytoken.model.Credentials stsCredentials = sessionTokenResult.getCredentials();
+
+// Create a clipboard page to hold the results
+ClipboardPage stsPage = tools.createPage("Data-Portal", "STSDetails");
+stsPage.putString("AccessKeyId", stsCredentials.getAccessKeyId());
+stsPage.putString("SecretAccessKey", stsCredentials.getSecretAccessKey());
+stsPage.putString("SessionToken", stsCredentials.getSessionToken());
+stsPage.putString("Expiration", stsCredentials.getExpiration().toString());
+
+// Add page to clipboard
+tools.getClipboard().add(stsPage);
+
+

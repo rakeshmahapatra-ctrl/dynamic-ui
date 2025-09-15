@@ -149,3 +149,110 @@ Here’s a grouped and categorized version of the questions from the image, orga
 ---
 
 Let me know if you want this converted into a document, spreadsheet, or formatted slide content.
+
+
+Here is a summarized breakdown of the content from the image titled **"Pega Cloud Estate"**, structured into bullet points for clarity:
+
+---
+
+### 📊 **Pega Cloud Estate Overview**
+
+* **35,000** users
+* **600+** changes per annum
+* **26** applications
+* **33** environments
+* **60 million** cases per annum
+* **300+** integrations
+* **20** production upgrades
+* **5** frameworks
+* **22 TB** of data
+
+---
+
+### 🌐 **VPC Breakdown**
+
+#### **VPC 1**
+
+* **Applications**: Fraud, Smart Disputes, Breathing Space, Branch Referrals
+* **Users**: 5,300 users
+* **Platform Version**: Infinity 7.1.7
+* **Notable**: Smart Disputes v7
+
+#### **VPC 2**
+
+* **Applications**: Court Production Orders, TAX, CM, PPF, DRO, Legal Matters, ALIQUTAS, Insurance Finance
+* **Users**: 1,100 users
+* **Platform Version**: Infinity 7.1.7
+* **Notes**: Legal Case Manager v6.4
+
+#### **VPC 3** (🟡 Starred)
+
+* **Applications**: Commercial Banking, Commercial Onboarding, Business Lending, Markets Supervisor
+* **Users**: 5,500 users
+* **Platform Version**: Infinity 7.1.5
+* **Notes**: E-middesk
+
+#### **VPC 4**
+
+* **Applications**: Scottish Widows
+* **Users**: 4,500 users
+* **Platform Version**: Customer Service for Financial Services
+
+#### **VPC 5**
+
+* **Applications**: Customer Services (ISA, ISAT, TECHHELP), Bereaved, DCAS, Maturities, Account Closure, Card Enquiries, Immigration Act
+* **Users**: 7,800 users
+* **Platform Version**: Customer Service for Financial Services
+
+#### **VPC 6** (⭐ Starred)
+
+* **Applications**: Payment Equity Investigations, Payment Services, TMS Replacement
+* **Users**: 1,300 users
+* **Platform Version**: Pega v8.1.1
+* **Notes**: Smart Investigate / Rechecks
+
+#### **VPC 7**
+
+* **Applications**: DAPS & Mortgages, LUX AutoLease
+* **Users**: 5,700 users
+* **Platform Version**: Infinity 7.1.4
+* **Notes**: E-middesk
+
+#### **VPC 8** (⭐ Starred)
+
+* **Applications**: General Insurance
+* **Users**: <100 users
+* **Platform Version**: Infinity 7.1.4
+* **Notes**: Customer Service for Financial Services
+
+---
+
+### 🛠️ **Supporting Tools/Features**
+
+* **Single Sign-On (SSO)**
+* **Business Intelligence Exchange (BIX)**
+* **Private Link**
+* **Cyber Security Operations Centre (CSOC)**
+* **Deployment Manager**
+* **Splunk**
+
+---
+
+### ✅ Key Highlights
+
+* High user adoption: 35,000 users across 8 VPCs.
+* Large-scale change management: 600+ changes/year.
+* Data-intensive: 22 TB managed.
+* Complex architecture: Multiple frameworks and integration points.
+* Modern infrastructure with active use of Pega Infinity and other customer service frameworks.
+* Strong governance via tools like CSOC, Splunk, Deployment Manager.
+
+---
+
+If you were referring to **"above question"** as whether this image provides insight into the **Pega Cloud Estate architecture, usage, and governance**, the answer is **yes**:
+
+* It clearly outlines the **users**, **applications**, **environments**, **data**, and **technical platforms** involved.
+* It shows **modular VPC-based deployment**, suggesting scalable and segregated architecture.
+* Governance and monitoring are reflected via tools like **Splunk**, **SSO**, and **CSOC**.
+
+Let me know if you'd like this exported to a document or need a deep dive into any specific VPC or platform version.

@@ -49,3 +49,17 @@ Best Suited For           | Distinct business domains                      | Rel
                           | Independent development teams                  | Unified user workflows
                           | Varying compliance requirements                | Limited development resources
                           | Microservice architectures                     | Domain-specific applications
+
+
+
+
+Start
+  ├─ Do case types represent distinct business domains with minimal shared logic? 
+  │     ├─ Yes → One App Per Case Type
+  │     └─ No → Are there independent development teams requiring separate deployment cycles?
+  │           ├─ Yes → One App Per Case Type
+  │           └─ No → Do case types share significant business logic or data models?
+  │                 ├─ Yes → Multiple Apps by Case Type
+  │                 └─ No → Is simplified governance and unified user experience a priority?
+  │                       ├─ Yes → Multiple Apps by Case Type
+  │                       └─ No → One App Per Case Type
